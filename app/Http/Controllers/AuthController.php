@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\cmuoauthclass;
+//use App\Http\Controllers\cmuoauthclass;
 // use App\Models\userinfoclass;
 class AuthController extends Controller
 {
@@ -12,9 +12,10 @@ class AuthController extends Controller
         // provide your application id,secret and redirect uri
         $appId = '';
         $appSecret = '';
-        $callbackUri[5] = 'http://localhost/php5/callback.php';
-        $callbackUri[7] = 'http://localhost/php7/callback.php';
+        //$callbackUri[5] = 'http://localhost/php5/callback.php';
+        $callbackUri[7] = 'http://localhost:8000/callback.php';
         $scope = 'cmuitaccount.basicinfo';
+        $state = 'xyz';
 
         require('cmuoauthclass.php');
         // new CMU Oauth Instance.
@@ -22,12 +23,12 @@ class AuthController extends Controller
         // set your application id,secret and redirect uri
         $cmuOauth->setAppId($appId);
         $cmuOauth->setAppSecret($appSecret);
-        $cmuOauth->setCallbackUri($callbackUri[PHP_MAJOR_VERSION]);
+        $cmuOauth->setCallbackUri($callbackUri[7]);
         $cmuOauth->setScope($scope);
 
         if (isset($_GET['error'])) {
         	session_destroy();
-            exit($_GET['error']);
+          exit($_GET['error']);
         } elseif(!isset($_GET['code'])){
         	//set state
         	$_SESSION['oauth2state'] = $cmuOauth->setState();
@@ -47,12 +48,7 @@ class AuthController extends Controller
         	// get access token from code.
         	$accessToken = $cmuOauth->getAccessTokenAuthCode($code);
           $_SESSION['accessToken']=$accessToken->access_token;
-            echo "<pre>";
-        	var_dump($accessToken);
-          echo "</pre>";
-          echo "<a href=\"userInfo.php\">View User Info</a>";
-          echo "<br>";
-          echo "<a href=\"index.php\">Home</a>";
         }
+        return view('test');
     }
 }

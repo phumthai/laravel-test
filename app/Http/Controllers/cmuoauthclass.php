@@ -2,7 +2,10 @@
 /**
  *
  */
-class cmuOauth
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+class cmuOauth extends Controller
 {
   private $OAUTH_APP_ID = null;
   private $OAUTH_APP_SECRET = null;

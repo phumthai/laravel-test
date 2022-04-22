@@ -2,7 +2,7 @@
 /**
  *
  */
-class UserInfo {
+class UserInfo extends Models{
 
     function __construct() {
         # code...
